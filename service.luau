@@ -623,7 +623,7 @@ local function updateDnf(excludedList, onFinished)
 
   if updateInTerminal then
     local sudoCmd = noctalia.commandExists("sudo") and "sudo" or "pkexec"
-    local cmd = sudoCmd .. " " .. dnfBin .. " upgrade -y"
+    local cmd = sudoCmd .. " " .. dnfBin .. " upgrade -y --refresh"
     if excludeArg then
       cmd = cmd .. " " .. shellQuote(excludeArg)
     end
@@ -643,7 +643,7 @@ local function updateDnf(excludedList, onFinished)
   if noctalia.fileExists(helperBin) then
     args = { "pkexec", helperBin, "upgrade" }
   else
-    args = { "pkexec", dnfBin, "upgrade", "-y" }
+    args = { "pkexec", dnfBin, "upgrade", "-y", "--refresh" }
   end
   if excludeArg then
     table.insert(args, excludeArg)
@@ -807,7 +807,7 @@ local function updateAll(excludedDnf, selectedFlatpaks)
 
     if dnfNeedsUpdate and dnfBin then
       local sudoCmd = noctalia.commandExists("sudo") and "sudo" or "pkexec"
-      local dnfCmd = sudoCmd .. " " .. dnfBin .. " upgrade -y"
+      local dnfCmd = sudoCmd .. " " .. dnfBin .. " upgrade -y --refresh"
       if #validExcluded > 0 then
         dnfCmd = dnfCmd .. " " .. shellQuote("--exclude=" .. table.concat(validExcluded, ","))
       end
